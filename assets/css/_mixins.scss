@@ -46,21 +46,9 @@ $spacers: (
   )
 );
 
+// $screen-mobi-max, $screen-tablet-min, $screen-tablet-max, $screen-laptop-min
 
-$spacer-breakpoint: (
-  sm: (
-    min:   0,
-    max:   767
-  ),
-  md: (
-    min:   768,
-    max:   1024
-  ),
-  lg: (
-    min:   1025,
-    max:   9024
-  ),
-);
+
 // $screen-sml-min: // 768px;
 // $screen-md-min:  // 1024
 @mixin for-mobile {
@@ -75,69 +63,169 @@ $spacer-breakpoint: (
 @mixin for-laptop-up {
   @media (min-width: 1025px) { @content; }
 }
+
+
+$spacer-breakpoints: (
+	// null(),
+	'':( min: none, max: none),
+  sm: (
+    min:   0,
+    max:   $screen-mobi-max
+  ),
+  md: (
+    min:    $screen-tablet-min,
+    max:    $screen-tablet-max
+  ),
+  lg: (
+    min:   $screen-laptop-min,
+		max:   none
+		// ,max:   9024
+		// ,max:   infiniti
+  ),
+
+);
 @mixin spacing() {
   @each $prop, $abbrev in (margin: m, padding: p) {
 
 		// @each $size, $lengths in $spacers {
 
-			@each $size, $lengths in $spacers {
-      $screen: (min-width: $screen-sml-min);
 
-      $length-x:   map-get($lengths, x);
-      $length-y:   map-get($lengths, y);
+			// ????
 
-      @include for-tablet-up{
-        .#{$abbrev}-#{$size} {
-          #{$prop}: $length-y $length-x
-        } // a = All sides
-        .#{$abbrev}t-#{$size} {
-          #{$prop}-top:    $length-y !important;
-        }
-        .#{$abbrev}r-#{$size} {
-          #{$prop}-right:  $length-x !important;
-        }
-        .#{$abbrev}b-#{$size} {
-          #{$prop}-bottom: $length-y !important;
-        }
-        .#{$abbrev}l-#{$size} {
-          #{$prop}-left:   $length-x !important;
-        }
-        .#{$abbrev}x-#{$size} {
-          #{$prop}-left:   $length-x !important;
-          #{$prop}-right:   $length-x !important;
-        }
-        .#{$abbrev}y-#{$size} {
-          #{$prop}-top:   $length-x !important;
-          #{$prop}-bottom:   $length-x !important;
-        }
-      }
+			// @each $color-key, $color-value in $colors {
+			// 	@each $tone-key, $tone-value in $color-value {
+
+			@each $screenset-key, $breakpoint-vals in $spacer-breakpoints {
+				$min:   map-get($breakpoint-vals, min);
+				$max:   map-get($breakpoint-vals, max);
+				$_: if($min == none, '', '-');
+
+				@media (min-width: $min) and (max-width: $max)  {
+					@if($min!=none){ $dash: "-"; }
+					@each $size, $lengths in $spacers {
+							$length-x:   map-get($lengths, x);
+							$length-y:   map-get($lengths, y);
+							#content {
+								// $direction == left
+								// .#{$abbrev}@if($min!==none){}#{$screenset-key}-#{$size} {
+								.#{$abbrev}#{$_}#{$screenset-key}-#{$size} {
+
+								// .#{$abbrev}-#{$screenset-key}-#{$size} {
+									#{$prop}: $length-y $length-x
+								} // a = All sides
+								.#{$abbrev}t#{$_}#{$screenset-key}-#{$size} {
+									#{$prop}-top:    $length-y !important;
+								}
+								.#{$abbrev}r#{$_}#{$screenset-key}-#{$size} {
+									#{$prop}-right:  $length-x !important;
+								}
+								.#{$abbrev}b#{$_}#{$screenset-key}-#{$size} {
+									#{$prop}-bottom: $length-y !important;
+								}
+								.#{$abbrev}l#{$_}#{$screenset-key}-#{$size} {
+									#{$prop}-left:   $length-x !important;
+								}
+								.#{$abbrev}x#{$_}#{$screenset-key}-#{$size} {
+									#{$prop}-left:   $length-x !important;
+									#{$prop}-right:   $length-x !important;
+								}
+								.#{$abbrev}y#{$_}#{$screenset-key}-#{$size} {
+									#{$prop}-top:   $length-x !important;
+									#{$prop}-bottom:   $length-x !important;
+								}
+							}
+					}
+
+				// }
+
+
+			}
+
+
+			// @each $size, $lengths in $spacers {
+      // // $screen: (min-width: $screen-sml-min);
+
+      // $length-x:   map-get($lengths, x);
+      // $length-y:   map-get($lengths, y);
+			// #content {
+
+			// 	.#{$abbrev}-md-#{$size} {
+			// 		#{$prop}: $length-y $length-x
+			// 	} // a = All sides
+			// 	.#{$abbrev}t-md-#{$size} {
+			// 		#{$prop}-top:    $length-y !important;
+			// 	}
+			// 	.#{$abbrev}r-md-#{$size} {
+			// 		#{$prop}-right:  $length-x !important;
+			// 	}
+			// 	.#{$abbrev}b-md-#{$size} {
+			// 		#{$prop}-bottom: $length-y !important;
+			// 	}
+			// 	.#{$abbrev}l-md-#{$size} {
+			// 		#{$prop}-left:   $length-x !important;
+			// 	}
+			// 	.#{$abbrev}x-md-#{$size} {
+			// 		#{$prop}-left:   $length-x !important;
+			// 		#{$prop}-right:   $length-x !important;
+			// 	}
+			// 	.#{$abbrev}y-md-#{$size} {
+			// 		#{$prop}-top:   $length-x !important;
+			// 		#{$prop}-bottom:   $length-x !important;
+			// 	}
+			// }
+
+      // @include for-tablet-up{
+      //   .#{$abbrev}-#{$size} {
+      //     #{$prop}: $length-y $length-x
+      //   } // a = All sides
+      //   .#{$abbrev}t-#{$size} {
+      //     #{$prop}-top:    $length-y !important;
+      //   }
+      //   .#{$abbrev}r-#{$size} {
+      //     #{$prop}-right:  $length-x !important;
+      //   }
+      //   .#{$abbrev}b-#{$size} {
+      //     #{$prop}-bottom: $length-y !important;
+      //   }
+      //   .#{$abbrev}l-#{$size} {
+      //     #{$prop}-left:   $length-x !important;
+      //   }
+      //   .#{$abbrev}x-#{$size} {
+      //     #{$prop}-left:   $length-x !important;
+      //     #{$prop}-right:   $length-x !important;
+      //   }
+      //   .#{$abbrev}y-#{$size} {
+      //     #{$prop}-top:   $length-x !important;
+      //     #{$prop}-bottom:   $length-x !important;
+      //   }
+      // }
 			@include for-tablet{
-				#content {
+				// #content {
 
-					.#{$abbrev}-md-#{$size} {
-						#{$prop}: $length-y $length-x
-					} // a = All sides
-					.#{$abbrev}t-md-#{$size} {
-						#{$prop}-top:    $length-y !important;
-					}
-					.#{$abbrev}r-md-#{$size} {
-						#{$prop}-right:  $length-x !important;
-					}
-					.#{$abbrev}b-md-#{$size} {
-						#{$prop}-bottom: $length-y !important;
-					}
-					.#{$abbrev}l-md-#{$size} {
-						#{$prop}-left:   $length-x !important;
-					}
-					.#{$abbrev}x-md-#{$size} {
-						#{$prop}-left:   $length-x !important;
-						#{$prop}-right:   $length-x !important;
-					}
-					.#{$abbrev}y-md-#{$size} {
-						#{$prop}-top:   $length-x !important;
-						#{$prop}-bottom:   $length-x !important;
-					}
-				}
+				// 	.#{$abbrev}-md-#{$size} {
+				// 		#{$prop}: $length-y $length-x
+				// 	} // a = All sides
+				// 	.#{$abbrev}t-md-#{$size} {
+				// 		#{$prop}-top:    $length-y !important;
+				// 	}
+				// 	.#{$abbrev}r-md-#{$size} {
+				// 		#{$prop}-right:  $length-x !important;
+				// 	}
+				// 	.#{$abbrev}b-md-#{$size} {
+				// 		#{$prop}-bottom: $length-y !important;
+				// 	}
+				// 	.#{$abbrev}l-md-#{$size} {
+				// 		#{$prop}-left:   $length-x !important;
+				// 	}
+				// 	.#{$abbrev}x-md-#{$size} {
+				// 		#{$prop}-left:   $length-x !important;
+				// 		#{$prop}-right:   $length-x !important;
+				// 	}
+				// 	.#{$abbrev}y-md-#{$size} {
+				// 		#{$prop}-top:   $length-x !important;
+				// 		#{$prop}-bottom:   $length-x !important;
+				// 	}
+				// }
       }
     }
   }

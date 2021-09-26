@@ -1,11 +1,11 @@
 // Breakpoints
 // Min - Media queries breakpoints
 $screen-sm-min:                  712px;
+$screen-mobi-max:                 767px;
 $screen-sml-min:                 768px;
 $screen-md-min:                  1024px;
 $screen-lg-min:                  1200px;
 $screen-xl-min:                  1580px;
-
 // Max - Media queries breakpoints
 $screen-xs-max:                  ($screen-sm-min - 1);
 $screen-sm-max:                  ($screen-md-min - 1);
@@ -15,3 +15,9 @@ $screen-laptop-tween:            1280px;
 $screen-xlg-min:             	 1440px + 200;
 $screen-lg-max:                  ($screen-xl-min - 1);
 $screen-jumbo-min:               1920px;
+
+// $screen-mobi-max, $screen-tablet-min, $screen-tablet-max, $screen-laptop-min
+$screen-mobi-max: 				$screen-sml-min - 1 ;
+$screen-laptop-min:              ($screen-md-min + 1);
+$screen-tablet-min:				$screen-sml-min;
+$screen-tablet-max: 			$screen-md-min;
