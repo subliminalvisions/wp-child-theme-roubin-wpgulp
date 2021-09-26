@@ -2,6 +2,7 @@
 $spacer:                     1rem;
 $spacer-x:                   $spacer;
 $spacer-y:                   $spacer;
+
 $spacers: (
   0: (
     x:   0,
@@ -45,15 +46,41 @@ $spacers: (
   )
 );
 
+
+$spacer-breakpoint: (
+  sm: (
+    min:   0,
+    max:   767
+  ),
+  md: (
+    min:   768,
+    max:   1024
+  ),
+  lg: (
+    min:   1025,
+    max:   9024
+  ),
+);
+// $screen-sml-min: // 768px;
+// $screen-md-min:  // 1024
+@mixin for-mobile {
+  @media (max-width: 767px) { @content; }
+}
 @mixin for-tablet-up {
   @media (min-width: 768px) { @content; }
 }
 @mixin for-tablet {
   @media (max-width: 1024px) and (min-width: 768px) { @content; }
 }
+@mixin for-laptop-up {
+  @media (min-width: 1025px) { @content; }
+}
 @mixin spacing() {
   @each $prop, $abbrev in (margin: m, padding: p) {
-    @each $size, $lengths in $spacers {
+
+		// @each $size, $lengths in $spacers {
+
+			@each $size, $lengths in $spacers {
       $screen: (min-width: $screen-sml-min);
 
       $length-x:   map-get($lengths, x);
